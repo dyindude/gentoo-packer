@@ -10,6 +10,12 @@
       "playbook_dir": "ansible",
       "playbook_file": "ansible/gentoo.yml",
       "inventory_file": "ansible/inventory"
+    },
+    {
+      "type": "shell",
+      "inline": [
+          "sleep 60000"
+      ]
     }
   ],
   "builders": [

@@ -2,3 +2,4 @@
   
   roles:
     - role: handbook-01-disks
+    - role: handbook-02-stage3

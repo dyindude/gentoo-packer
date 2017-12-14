@@ -1,0 +1,9 @@
+---
+gentoo_mirror: "http://www.gtlib.gatech.edu/pub/gentoo"
+gentoo_url_root: "{{ gentoo_mirror }}/releases/amd64/autobuilds/"
+gentoo_latest_stage3: "{{ lookup('url', 'http://www.gtlib.gatech.edu/pub/gentoo/releases/amd64/autobuilds/latest-stage3-amd64.txt') | regex_replace('.*,(.*) .*', '\\1') }}"
+gentoo_stage3_url: "{{ gentoo_url_root }}{{ gentoo_latest_stage3 }}"
+gentoo_cflags: "-O2 -pipe"
+gentoo_portdir: "/usr/portage"
+gentoo_distdir: "/usr/portage/distfiles"
+gentoo_pkgdir: "/usr/portage/packages"

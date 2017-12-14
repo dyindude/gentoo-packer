@@ -1,0 +1,22 @@
+---
+- name: ensure tmp folder exists
+  file:
+    path: /mnt/gentoo/tmp
+    state: directory
+- name: get stage3 tarball
+  get_url:
+    url: "{{ item }}"
+    dest: "/mnt/gentoo/{{ item | basename }}"
+    tmp_dest: "/mnt/gentoo/tmp"
+  with_items:
+    - "{{ gentoo_stage3_url }}"
+    - "{{ gentoo_stage3_url }}.CONTENTS"
+    - "{{ gentoo_stage3_url }}.DIGESTS"
+    - "{{ gentoo_stage3_url }}.DIGESTS.asc"
+#- name: verify stage3 tarball
+#  shell: cd /mnt/gentoo && gpg --verify {{ gentoo_stage3_url | basename }}.DIGESTS.asc && touch /tmp/stage3.verified
+#  args:
+#    creates: /tmp/stage3.verified
+- shell: cd /mnt/gentoo && tar xvjpf stage3-*.tar.bz2 --xattrs --numeric-owner && touch /tmp/stage3.unarchived
+  args:
+    creates: /tmp/stage3.unarchived
