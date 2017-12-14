@@ -3,6 +3,13 @@
     {
       "type": "shell",
       "script": "scripts/ansible.sh"
+    },
+    {
+      "type": "ansible-local",
+      "command": "/tmp/bootstrap/ansible/bin/ansible-playbook",
+      "playbook_dir": "ansible",
+      "playbook_file": "ansible/gentoo.yml",
+      "inventory_file": "ansible/inventory"
     }
   ],
   "builders": [
@@ -27,13 +34,13 @@
       "ssh_wait_timeout": "10000s",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-centos-7-x86_64",
+      "vm_name": "packer-gentoo-x86_64",
       "vboxmanage": [
         [
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "512"
+          "8192"
         ],
         [
           "modifyvm",

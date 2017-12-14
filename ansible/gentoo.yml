@@ -1,0 +1,4 @@
+- hosts: all
+  
+  roles:
+    - role: handbook-01-disks
