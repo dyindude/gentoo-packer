@@ -1,0 +1,11 @@
+---
+- hosts: all
+  vars:
+    gentoo_url_root: "http://distfiles.gentoo.org/releases/amd64/autobuilds/"
+    gentoo_latest: "{{ lookup('url', 'http://distfiles.gentoo.org/releases/amd64/autobuilds/latest-iso.txt') | regex_replace('.*iso.*,(.*install.*iso).*', '\\1') }}"
+    gentoo_latest_stage3: "{{ lookup('url', 'http://distfiles.gentoo.org/releases/amd64/autobuilds/latest-stage3.txt') }}"
+  tasks:
+    - name: download install iso
+      get_url:
+        url: "{{ gentoo_url_root }}{{ gentoo_latest}}"
+        dest: "{{ playbook_dir }}/install.iso"

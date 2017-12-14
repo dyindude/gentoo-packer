@@ -1,0 +1,53 @@
+{
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "scripts/ansible.sh"
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<enter><wait10><enter><wait10><wait10>passwd<enter>vagrant<enter>vagrant<enter>service sshd start<enter>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 8192,
+      "guest_os_type": "Gentoo_64",
+      "headless": true,
+      "http_directory": "http",
+      "iso_urls": [
+        "install.iso"
+      ],
+      "iso_checksum_type": "sha256",
+      "iso_checksum": "0475074f61b0930a042085dbc1819a16bc9eb5f6dce09385a0c83115e9fefbdb",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-centos-7-x86_64",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "512"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ]
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "builds/{{.Provider}}-gentoo.box",
+      "type": "vagrant"
+    }
+  ]
+}
