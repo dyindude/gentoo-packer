@@ -1,3 +1,5 @@
 install.iso
 packer_cache
 builds/*
+*.retry
+test.yml

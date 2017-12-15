@@ -3,16 +3,17 @@
   file:
     path: /mnt/gentoo/tmp
     state: directory
+- name: debug sha256sum
+  debug:
+    var: gentoo_latest_stage3_sha512sum
 - name: get stage3 tarball
   get_url:
     url: "{{ item }}"
     dest: "/mnt/gentoo/{{ item | basename }}"
     tmp_dest: "/mnt/gentoo/tmp"
+    checksum: "sha512:{{ gentoo_latest_stage3_sha512sum }}"
   with_items:
     - "{{ gentoo_stage3_url }}"
-    - "{{ gentoo_stage3_url }}.CONTENTS"
-    - "{{ gentoo_stage3_url }}.DIGESTS"
-    - "{{ gentoo_stage3_url }}.DIGESTS.asc"
 #- name: verify stage3 tarball
 #  shell: cd /mnt/gentoo && gpg --verify {{ gentoo_stage3_url | basename }}.DIGESTS.asc && touch /tmp/stage3.verified
 #  args:

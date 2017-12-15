@@ -1,8 +1,13 @@
 ---
 gentoo_mirror: "http://www.gtlib.gatech.edu/pub/gentoo"
-gentoo_url_root: "{{ gentoo_mirror }}/releases/amd64/autobuilds/"
-gentoo_latest_stage3: "{{ lookup('url', 'http://www.gtlib.gatech.edu/pub/gentoo/releases/amd64/autobuilds/latest-stage3-amd64.txt') | regex_replace('.*,(.*) .*', '\\1') }}"
-gentoo_stage3_url: "{{ gentoo_url_root }}{{ gentoo_latest_stage3 }}"
+gentoo_latest_stage3_url: "{{ gentoo_mirror }}/releases/amd64/autobuilds/latest-stage3-amd64.txt"
+gentoo_latest_stage3: "{{ lookup('url', gentoo_latest_stage3_url ) | regex_replace('.*,(.*) .*', '\\1') }}"
+gentoo_stage3_url: "{{ gentoo_mirror }}/releases/amd64/autobuilds/{{ gentoo_latest_stage3 }}"
+gentoo_stage3_digests_url: "{{ gentoo_stage3_url }}.DIGESTS"
+#gentoo_latest_stage3_sha512sum: "{{ lookup('url', gentoo_stage3_digests_url) | regex_replace('^# SHA512 HASH,(.*)  .*WHIRL.*SHA512.*WHIRL.*', '\\1') }}"
+# this is less messy than my regex approach
+# split lookup('url') output on commas, take the 2nd entry, split on spaces. first element in that list is our checksum
+gentoo_latest_stage3_sha512sum: "{{ lookup('url', gentoo_stage3_digests_url).split(',').1.split(' ').0 }}"
 gentoo_cflags: "-O2 -pipe"
 gentoo_portdir: "/usr/portage"
 gentoo_distdir: "/usr/portage/distfiles"
