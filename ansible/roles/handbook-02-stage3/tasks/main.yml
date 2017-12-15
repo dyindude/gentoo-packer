@@ -3,21 +3,45 @@
   file:
     path: /mnt/gentoo/tmp
     state: directory
-- name: debug sha256sum
-  debug:
-    var: gentoo_latest_stage3_sha512sum
 - name: get stage3 tarball
   get_url:
-    url: "{{ item }}"
-    dest: "/mnt/gentoo/{{ item | basename }}"
+    url: "{{ gentoo_stage3_url }}"
+    dest: "/mnt/gentoo/{{ gentoo_stage3_url | basename }}"
     tmp_dest: "/mnt/gentoo/tmp"
     checksum: "sha512:{{ gentoo_latest_stage3_sha512sum }}"
-  with_items:
-    - "{{ gentoo_stage3_url }}"
-#- name: verify stage3 tarball
-#  shell: cd /mnt/gentoo && gpg --verify {{ gentoo_stage3_url | basename }}.DIGESTS.asc && touch /tmp/stage3.verified
+- name: extract stage3 tarball to /mnt/gentoo
+  unarchive:
+    src: "/mnt/gentoo/{{ gentoo_stage3_url | basename }}"
+    dest: "/mnt/gentoo/"
+    remote_src: yes
+    extra_opts:
+      - "--xattrs"
+      - "--numeric-owner"
+#- shell: cd /mnt/gentoo && tar xvjpf stage3-*.tar.bz2 --xattrs --numeric-owner && touch /tmp/stage3.unarchived
 #  args:
-#    creates: /tmp/stage3.verified
-- shell: cd /mnt/gentoo && tar xvjpf stage3-*.tar.bz2 --xattrs --numeric-owner && touch /tmp/stage3.unarchived
-  args:
-    creates: /tmp/stage3.unarchived
+#    creates: /tmp/stage3.unarchived
+- name: write /mnt/gentoo/etc/portage/make.conf
+  template:
+    src: make.conf.j2
+    dest: /mnt/gentoo/etc/portage/make.conf
+    follow: yes
+- name: create /mnt/gentoo/etc/portage/repos.conf/
+  file:
+    path: /mnt/gentoo/etc/portage/repos.conf
+    state: directory
+- name: copy repos.conf
+  copy:
+    src: /mnt/gentoo/usr/share/portage/config/repos.conf
+    dest: /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
+- name: copy resolv.conf
+  copy:
+    src: /etc/resolv.conf
+    dest: /mnt/gentoo/etc/resolv.conf
+- name: set up mounts for install
+  shell: "{{ item }}"
+  with_items:
+    - mount --types proc /proc /mnt/gentoo/proc
+    - mount --rbind /sys /mnt/gentoo/sys
+    - mount --make-rslave /mnt/gentoo/sys
+    - mount --rbind /dev /mnt/gentoo/dev
+    - mount --make-rslave /mnt/gentoo/dev

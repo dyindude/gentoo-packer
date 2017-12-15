@@ -3,3 +3,4 @@ packer_cache
 builds/*
 *.retry
 test.yml
+output-virtualbox-iso

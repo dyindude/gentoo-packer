@@ -8,9 +8,18 @@
       "type": "ansible-local",
       "command": "/tmp/bootstrap/ansible/bin/ansible-playbook",
       "playbook_dir": "ansible",
+      "playbook_file": "ansible/disks.yml",
+      "inventory_file": "ansible/inventory"
+    },
+    {
+      "type": "ansible-local",
+      "staging_directory": "/mnt/gentoo/tmp/ansible",
+      "command": "ANSIBLE_CONFIG=/mnt/gentoo/tmp/ansible/gentoo.cfg /tmp/bootstrap/ansible/bin/ansible-playbook",
+      "playbook_dir": "ansible",
       "playbook_file": "ansible/gentoo.yml",
       "inventory_file": "ansible/inventory"
     },
+
     {
       "type": "shell",
       "inline": [
