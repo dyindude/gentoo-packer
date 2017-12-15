@@ -1,3 +1,7 @@
-- hosts: all
+- hosts: localhost
   roles:
     - role: handbook-02-stage3
+- hosts: chroot
+  tasks:
+    - name: run emerge-webrsync
+      shell: emerge-webrsync
