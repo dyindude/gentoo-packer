@@ -1,0 +1,69 @@
+{
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+          "sleep 60000"
+      ]
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-ovf",
+      "source_path": "builds/box.ovf",
+      "boot_command": [
+        "<enter><wait10><enter><wait10><wait10>passwd<enter>vagrant<enter>vagrant<enter>service sshd start<enter>"
+      ],
+      "boot_wait": "10s",
+      "headless": true,
+      "http_directory": "http",
+      "ssh_username": "root",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "packer-gentoo-x86_64",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "8192"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ],
+        [
+            "storageattach",
+            "{{.Name}}",
+            "--storagectl",
+            "IDE Controller",
+            "--port",
+            "0",
+            "--device",
+            "1",
+            "--type",
+            "dvddrive",
+            "--medium",
+            "install.iso"
+        ],
+        [
+            "modifyvm",
+          "{{.Name}}",
+            "--boot1",
+            "dvd"
+        ]
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "output": "builds/{{.Provider}}-gentoo-stage3.box",
+      "type": "vagrant"
+    }
+  ]
+}
