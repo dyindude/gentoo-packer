@@ -2,6 +2,18 @@
   "provisioners": [
     {
       "type": "shell",
+      "script": "scripts/ansible.sh"
+    },
+    {
+      "type": "ansible-local",
+      "staging_directory": "/mnt/gentoo/tmp/ansible",
+      "command": "ANSIBLE_CONFIG=/mnt/gentoo/tmp/ansible/gentoo.cfg /tmp/bootstrap/ansible/bin/ansible-playbook",
+      "playbook_dir": "ansible",
+      "playbook_file": "ansible/gentoo-stage3.yml",
+      "inventory_file": "ansible/inventory"
+    },
+    {
+      "type": "shell",
       "inline": [
           "sleep 60000"
       ]

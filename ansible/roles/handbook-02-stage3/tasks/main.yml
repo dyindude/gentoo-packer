@@ -17,9 +17,30 @@
     extra_opts:
       - "--xattrs"
       - "--numeric-owner"
-#- shell: cd /mnt/gentoo && tar xvjpf stage3-*.tar.bz2 --xattrs --numeric-owner && touch /tmp/stage3.unarchived
-#  args:
-#    creates: /tmp/stage3.unarchived
+- name: write /mnt/gentoo/etc/fstab
+  template:
+    src: fstab.j2
+    dest: /mnt/gentoo/etc/fstab
+- name: write /mnt/gentoo/etc/timezone
+  template:
+    src: timezone.j2
+    dest: /mnt/gentoo/etc/timezone
+- name: write /mnt/gentoo/etc/locale.gn
+  template:
+    src: locale.gen.j2
+    dest: /mnt/gentoo/etc/locale.gen
+- name: write /etc/conf.d/hostname
+  template:
+    src: hostname.j2
+    dest: /mnt/gentoo/etc/conf.d/hostname
+- name: write /etc/conf.d/net
+  template:
+    src: net.j2
+    dest: /mnt/gentoo/etc/conf.d/net
+- name: write /etc/hosts
+  template:
+    src: hosts.j2
+    dest: /mnt/gentoo/etc/hosts
 - name: write /mnt/gentoo/etc/portage/make.conf
   template:
     src: make.conf.j2

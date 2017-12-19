@@ -14,3 +14,6 @@ gentoo_distdir: "/usr/portage/distfiles"
 gentoo_pkgdir: "/usr/portage/packages"
 #gentoo_mirrors: "rsync://rsync.gtlib.gatech.edu/pub/gentoo" rsync mirror doesn't seem to be working
 gentoo_mirrors: "http://www.gtlib.gatech.edu/pub/gentoo"
+gentoo_useflags: "-gtk -gnome -qt4 -qt5 -kde -X"
+gentoo_hostname: "vagrant"
+gentoo_timezone: "CST6CDT"
