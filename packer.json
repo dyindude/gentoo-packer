@@ -23,7 +23,7 @@
     {
       "type": "shell",
       "inline": [
-          "sleep 60000"
+          "sync && shutdown -h now"
       ]
     }
   ],

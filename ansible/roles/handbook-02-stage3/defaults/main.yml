@@ -12,4 +12,5 @@ gentoo_cflags: "-O2 -pipe"
 gentoo_portdir: "/usr/portage"
 gentoo_distdir: "/usr/portage/distfiles"
 gentoo_pkgdir: "/usr/portage/packages"
-gentoo_mirrors: "rsync://rsync.gtlib.gatech.edu/gentoo"
+#gentoo_mirrors: "rsync://rsync.gtlib.gatech.edu/pub/gentoo" rsync mirror doesn't seem to be working
+gentoo_mirrors: "http://www.gtlib.gatech.edu/pub/gentoo"
