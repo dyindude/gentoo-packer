@@ -3,6 +3,8 @@
   file:
     path: /mnt/gentoo/tmp
     state: directory
+- name: copy VBoxGuestAdditions.iso to chroot
+  shell: cp /root/VBoxGuestAdditions.iso /mnt/gentoo/root/VBoxGuestAdditions.iso
 - name: get stage3 tarball
   get_url:
     url: "{{ gentoo_stage3_url }}"

@@ -4,7 +4,13 @@
     src: /etc/init.d/net.lo
     dest: /etc/init.d/net.enp0s3
     state: link
-- name: ensure net.enp0s3 starts on boot
+- name: ensure services start on boot
+  service:
+    name: "{{ item }}"
+    enabled: yes
+  with_items:
+    - net.enp0s3
+    - sshd
   shell: rc-update add net.enp0s3 default
 - name: set root password to vagrant
   user:
@@ -53,8 +59,12 @@
   portage:
     package: sys-boot/grub:2
     state: present
-- name: setup grub
+- name: setup grub, install guest additions
   shell: "{{ item }}"
   with_items:
     - "grub-install /dev/sda"
     - "grub-mkconfig -o /boot/grub/grub.cfg"
+    - "mount -o loop -t iso9660 /root/VBoxGuestAdditions.iso /mnt"
+    - "/mnt/VBoxLinuxAdditions.run"
+    - "umount /mnt"
+    - "rm /root/VBoxGuestAdditions.iso"
