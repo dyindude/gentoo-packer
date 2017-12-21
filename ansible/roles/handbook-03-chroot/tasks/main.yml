@@ -58,12 +58,12 @@
   portage:
     package: sys-boot/grub:2
     state: present
-- name: setup grub, install guest additions
+- name: setup grub
   shell: "{{ item }}"
   with_items:
     - "grub-install /dev/sda"
     - "grub-mkconfig -o /boot/grub/grub.cfg"
-    - "mount -o loop -t iso9660 /root/VBoxGuestAdditions.iso /mnt"
-    - "/mnt/VBoxLinuxAdditions.run"
-    - "umount /mnt"
-    - "rm /root/VBoxGuestAdditions.iso"
+- name: install guest additions
+  portage:
+    package: app-emulation/virtualbox-guest-additions
+    state: present
