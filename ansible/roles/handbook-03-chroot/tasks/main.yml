@@ -11,7 +11,6 @@
   with_items:
     - net.enp0s3
     - sshd
-  shell: rc-update add net.enp0s3 default
 - name: set root password to vagrant
   user:
     name: root
