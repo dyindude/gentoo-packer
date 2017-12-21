@@ -2,6 +2,5 @@
   roles:
     - role: handbook-02-stage3
 - hosts: chroot
-  tasks:
-    - name: run emerge-webrsync
-      shell: emerge-webrsync
+  roles:
+    - role: handbook-03-chroot 

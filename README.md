@@ -37,7 +37,8 @@ emerge --ask --update --deep --newuse @world
 #install grub
 
 TODO:
-test build again after merging gentoo-sources
+#test build again after merging gentoo-sources
+need to configure the kernel.. genkernel all is a LOT of data
 merge split playbooks
 Install guest additions?
 

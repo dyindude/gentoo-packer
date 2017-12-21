@@ -1,16 +1,18 @@
 ---
-- name: symlink net.lo to net.eth0
+- name: symlink net.lo to net.enp0s3
   file:
     src: /etc/init.d/net.lo
-    dest: /etc/init.d/net.eth0
+    dest: /etc/init.d/net.enp0s3
     state: link
-- name: ensure net.eth0 starts on boot
-  shell: rc-update add net.eth0 default
+- name: ensure net.enp0s3 starts on boot
+  shell: rc-update add net.enp0s3 default
 - name: set root password to vagrant
   user:
     name: root
     password: vagrant
     update_password: always
+- name: run emerge-webrsync
+  shell: emerge-webrsync
 - name: install gentoolkit
   shell: emerge gentoolkit
 - name: set profile
@@ -21,11 +23,11 @@
     update: yes
     deep: yes
     newuse: yes
-#- name: rebuild system
-#  shell: "{{ item }}"
-#  with_items:
-#    - "eselect profile set {{ gentoo_profile }}"
-#    - "emerge --update --deep --newuse @world"
+- name: rebuild system
+  shell: "{{ item }}"
+  with_items:
+    - "eselect profile set {{ gentoo_profile }}"
+    - "emerge --update --deep --newuse @world"
 - name: set up tzdata
   shell: emerge --config sys-libs/timezone-data
 - name: generate locales
@@ -37,8 +39,12 @@
   with_items:
     - gentoo-sources
     - sys-kernel/genkernel
+- name: template kernel config
+  template:
+    src: kernelconfig.j2
+    dest: /boot/kernelconfig
 - name: run genkernel
-  shell: genkernel all
+  shell: genkernel --kernel-config=/boot/kernelconfig all
 - name: install net-misc/dhcpcd
   portage:
     package: net-misc/dhcpcd
