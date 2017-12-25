@@ -14,8 +14,27 @@
 - name: set root password to vagrant
   user:
     name: root
-    password: vagrant
     update_password: always
+    password: $6$TwdlMzLJ6B$qqj/8soZa5eURXAa54wkjneV5VZG4r664A3VbSrcl4upJwSiiH4o78uTXRhLPwQJP7mXpKShr849mCAs24lTX/
+    # above password is 'vagrant'
+- name: create vagrant user
+  user:
+    name: vagrant
+    password: $6$TwdlMzLJ6B$qqj/8soZa5eURXAa54wkjneV5VZG4r664A3VbSrcl4upJwSiiH4o78uTXRhLPwQJP7mXpKShr849mCAs24lTX/
+    createhome: yes
+    groups: wheel
+    append: yes
+- name: create vagrant .ssh folder
+  file:
+    path: /home/vagrant/.ssh
+    owner: vagrant
+    group: vagrant
+    mode: 0755
+    state: directory
+- name: install insecure vagrant key
+  get_url:
+    url: https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub
+    dest: /home/vagrant/.ssh/authorized_keys
 - name: run emerge-webrsync
   shell: emerge-webrsync
 - name: install gentoolkit
@@ -66,4 +85,15 @@
 - name: install guest additions
   portage:
     package: app-emulation/virtualbox-guest-additions
+    state: present
+- name: install sudo
+  portage:
+    package: app-admin/sudo
+    state: present
+- name: set sudoers
+  lineinfile:
+    path: /etc/sudoers
+    regexp: '^#(.*wheel.*NOPASSWD.*)'
+    line: '\1'
+    backrefs: yes
     state: present

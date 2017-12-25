@@ -4,3 +4,4 @@ builds/*
 *.retry
 test.yml
 output-virtualbox-iso
+.vagrant

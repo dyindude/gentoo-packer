@@ -1,5 +1,6 @@
 ---
-gentoo_mirror: "http://www.gtlib.gatech.edu/pub/gentoo"
+#gentoo_mirror: "http://www.gtlib.gatech.edu/pub/gentoo"
+gentoo_mirror: "http://gentoo.osuosl.org"
 gentoo_latest_stage3_url: "{{ gentoo_mirror }}/releases/amd64/autobuilds/latest-stage3-amd64.txt"
 gentoo_latest_stage3: "{{ lookup('url', gentoo_latest_stage3_url ) | regex_replace('.*,(.*) .*', '\\1') }}"
 gentoo_stage3_url: "{{ gentoo_mirror }}/releases/amd64/autobuilds/{{ gentoo_latest_stage3 }}"
@@ -13,7 +14,8 @@ gentoo_portdir: "/usr/portage"
 gentoo_distdir: "/usr/portage/distfiles"
 gentoo_pkgdir: "/usr/portage/packages"
 #gentoo_mirrors: "rsync://rsync.gtlib.gatech.edu/pub/gentoo" rsync mirror doesn't seem to be working
-gentoo_mirrors: "http://www.gtlib.gatech.edu/pub/gentoo"
+#gentoo_mirrors: "http://www.gtlib.gatech.edu/pub/gentoo"
+gentoo_mirrors: "http://gentoo.osuosl.org"
 gentoo_useflags: "-gtk -gnome -qt4 -qt5 -kde -X"
 gentoo_hostname: "vagrant"
 gentoo_timezone: "CST6CDT"
