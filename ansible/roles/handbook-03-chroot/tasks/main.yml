@@ -41,6 +41,12 @@
   shell: emerge gentoolkit
 - name: set profile
   shell: "eselect profile set {{ gentoo_profile }}"
+- name: set sqlite USE flag for python - required for ansible install from portage
+  lineinfile:
+    path: /etc/portage/package.use/python
+    line: 'dev-lang/python sqlite'
+    state: present
+    create: yes
 - name: rebuild system
   portage:
     package: '@world'
@@ -96,4 +102,8 @@
     regexp: '^#(.*wheel.*NOPASSWD.*)'
     line: '\1'
     backrefs: yes
+    state: present
+- name: install ansible
+  portage:
+    package: ansible
     state: present

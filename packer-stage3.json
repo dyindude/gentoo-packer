@@ -1,74 +1,34 @@
 {
   "provisioners": [
     {
-      "type": "shell",
-      "script": "scripts/ansible.sh"
+      "type": "ansible-local",
+      "playbook_dir": "ansible",
+      "playbook_file": "ansible/gentoo-post.yml",
+      "inventory_file": "ansible/inventory"
     },
     {
-      "type": "ansible-local",
-      "staging_directory": "/mnt/gentoo/tmp/ansible",
-      "command": "ANSIBLE_CONFIG=/mnt/gentoo/tmp/ansible/gentoo.cfg /tmp/bootstrap/ansible/bin/ansible-playbook",
-      "playbook_dir": "ansible",
-      "playbook_file": "ansible/gentoo-stage3.yml",
-      "inventory_file": "ansible/inventory"
+      "type": "shell",
+      "inline": [
+          "sleep 600000"
+      ]
     }
   ],
   "builders": [
     {
       "type": "virtualbox-ovf",
       "source_path": "builds/box.ovf",
-      "boot_command": [
-        "<enter><wait10><enter><wait10><wait10>passwd<enter>vagrant<enter>vagrant<enter>service sshd start<enter>"
-      ],
-      "boot_wait": "10s",
       "headless": true,
       "http_directory": "http",
-      "ssh_username": "root",
+      "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_wait_timeout": "10000s",
-      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-      "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-gentoo-x86_64",
-      "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "8192"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "2"
-        ],
-        [
-            "storageattach",
-            "{{.Name}}",
-            "--storagectl",
-            "IDE Controller",
-            "--port",
-            "0",
-            "--device",
-            "1",
-            "--type",
-            "dvddrive",
-            "--medium",
-            "install.iso"
-        ],
-        [
-            "modifyvm",
-          "{{.Name}}",
-            "--boot1",
-            "dvd"
-        ]
-      ]
+      "vm_name": "packer-gentoo-x86_64"
     }
   ],
   "post-processors": [
     {
-      "output": "builds/{{.Provider}}-gentoo-stage3.box",
+      "output": "builds/{{.Provider}}-gentoo-post.box",
       "type": "vagrant"
     }
   ]
