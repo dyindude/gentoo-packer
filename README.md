@@ -7,17 +7,15 @@ ansible/disks.yml - sets up disks
 ansible/gentoo.yml - extracts/sets up stage3
 ansible/gentoo-stage3.yml - does post-setup inside the chroot
 
+# iterating on the builds
+After the first build completes, extract the resulting `virtualbox-gentoo.box`:
 
+```
+$ cd builds
+$ tar xfvz virtualbox-gentoo.box
+```
 
-TODO:
-Install guest additions?
-- doing this via gentoo native package now
-- modify packer-init.json to not copy the vbox additions iso, remove tasks from ansible
-  - an alternative might be to see if we can pass the headers dir to VBoxLinuxAdditions.run
+You can then use the misnamed `packer-stage3.json` as an example for running other playbooks from the resulting vagrant box.
 
-what can be cleaned up from the image? (portage tree?)
-create `vagrant` user
-install vagrant insecure key
-
-
-update documentation
+- what can be cleaned up from the image? (portage tree? - testing that on this build)
+- refactor ansible tasks (set more defaults, break things out like the handbook, etc?)
