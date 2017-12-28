@@ -107,5 +107,3 @@
   portage:
     package: ansible
     state: present
-- name: clean portage dir
-  shell: rm -rf /usr/portage/*

@@ -17,8 +17,6 @@
     extra_opts:
       - "--xattrs"
       - "--numeric-owner"
-- name: copy VBoxGuestAdditions.iso to chroot
-  shell: cp /root/VBoxGuestAdditions.iso /mnt/gentoo/root/VBoxGuestAdditions.iso
 - name: write /mnt/gentoo/etc/fstab
   template:
     src: fstab.j2

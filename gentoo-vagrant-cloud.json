@@ -71,6 +71,7 @@
     }
   ],
   "post-processors": [
+      [
     {
       "output": "builds/{{.Provider}}-gentoo.box",
       "type": "vagrant"
@@ -81,5 +82,6 @@
      "access_token": "{{user `cloud_token`}}",
      "version": "{{user `version`}}"
     }
+  ] 
   ]
 }
