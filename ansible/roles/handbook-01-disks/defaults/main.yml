@@ -1,2 +1,3 @@
 ---
 # defaults file for handbook-01-disks
+gentoo_root_disk: "/dev/{{ 'vda' if packer_build_name == 'qemu' else 'sda' }}"

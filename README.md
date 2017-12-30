@@ -1,6 +1,8 @@
 # gentoo-packer
 This repository is a collection of scripts leveraging Ansible and Packer for building Vagrant box images of Gentoo with Packer.
 
+run `ansible-playbook -i inventory host.yml` to download the gentoo `install.iso` to the working folder.
+
 run `packer build gentoo.json` to build a Vagrant box file in `builds` that can be imported as a box.
 
 ansible/disks.yml - sets up disks

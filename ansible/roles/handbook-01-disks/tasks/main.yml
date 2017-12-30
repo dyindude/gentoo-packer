@@ -1,17 +1,17 @@
 ---
 - name: partition /dev/sda
   parted:
-    device: /dev/sda
+    device: "{{ gentoo_root_disk }}"
     flags: [ boot ]
     number: 1
     state: present
 - name: format /dev/sda1
   filesystem:
-    dev: /dev/sda1
+    dev: "{{ gentoo_root_disk }}1"
     fstype: ext4
 - name: mount /dev/sda1 to /mnt/gentoo
   mount:
     path: /mnt/gentoo
-    src: /dev/sda1
+    src: "{{ gentoo_root_disk }}1"
     fstype: ext4
     state: mounted

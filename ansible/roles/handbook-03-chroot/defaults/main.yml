@@ -1,2 +1,3 @@
 ---
 gentoo_profile: "default/linux/amd64/13.0"
+gentoo_root_disk: "/dev/{{ 'vda' if packer_build_name == 'qemu' else 'sda' }}"

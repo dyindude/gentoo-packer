@@ -86,7 +86,7 @@
 - name: setup grub
   shell: "{{ item }}"
   with_items:
-    - "grub-install /dev/sda"
+    - "grub-install {{ gentoo_root_disk }}"
     - "grub-mkconfig -o /boot/grub/grub.cfg"
 - name: install guest additions
   portage:
