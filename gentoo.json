@@ -42,7 +42,7 @@
         "install.iso"
       ],
       "iso_checksum_type": "sha256",
-      "iso_checksum": "0475074f61b0930a042085dbc1819a16bc9eb5f6dce09385a0c83115e9fefbdb",
+      "iso_checksum": "cfe64d7483e08062260c8242ff345c59085512ccea146791bf5b21ad5bc625cd",
       "ssh_username": "root",
       "ssh_password": "vagrant",
       "ssh_port": 22,
