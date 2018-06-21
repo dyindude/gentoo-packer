@@ -5,3 +5,4 @@ builds/*
 test.yml
 output-virtualbox-iso
 .vagrant
+packages*

@@ -1,0 +1,6 @@
+# packages masked here by ansible (system.mask.j2)
+# either because I don't like them or I want to avoid newer versions hastily being
+# added to my profile
+{% for mask in gentoo_package_mask_system %}
+{{ mask }}
+{% endfor %}

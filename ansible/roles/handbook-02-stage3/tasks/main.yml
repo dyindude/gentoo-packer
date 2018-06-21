@@ -48,12 +48,24 @@
     follow: yes
 - name: create /mnt/gentoo/etc/portage/repos.conf/
   file:
-    path: /mnt/gentoo/etc/portage/repos.conf
+    path: "{{ item }}"
     state: directory
+  with_items:
+    - /mnt/gentoo/etc/portage/repos.conf
+    - /mnt/gentoo/etc/portage/package.mask
+    - /mnt/gentoo/etc/portage/package.use
 - name: copy repos.conf
   copy:
     src: /mnt/gentoo/usr/share/portage/config/repos.conf
     dest: /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
+- name: write system package.mask
+  template:
+    src: system.mask.j2
+    dest: /mnt/gentoo/etc/portage/package.mask/system
+- name: write system package.use
+  template:
+    src: system.use.j2
+    dest: /mnt/gentoo/etc/portage/package.use/system
 - name: copy resolv.conf
   copy:
     src: /etc/resolv.conf

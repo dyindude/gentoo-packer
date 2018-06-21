@@ -1,0 +1,6 @@
+- hosts: localhost
+  roles:
+    - role: handbook-01-disks
+- hosts: localhost
+  roles:
+    - role: handbook-02-stage3

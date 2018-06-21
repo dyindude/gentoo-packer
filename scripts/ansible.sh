@@ -1,4 +1,4 @@
-mkdir -p /tmp/bootstrap/gentoo-ansible
+mkdir -p /tmp/bootstrap
 cd /tmp/bootstrap
 wget https://github.com/pypa/virtualenv/archive/15.1.0.tar.gz -O /tmp/bootstrap/virtualenv.tar.gz
 tar xfvz virtualenv.tar.gz
