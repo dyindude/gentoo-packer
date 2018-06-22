@@ -6,3 +6,4 @@ test.yml
 output-virtualbox-iso
 .vagrant
 packages*
+!packages/.keep
