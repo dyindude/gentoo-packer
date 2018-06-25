@@ -9,6 +9,11 @@
     dest: "/mnt/gentoo/{{ gentoo_stage3_url | basename }}"
     tmp_dest: "/mnt/gentoo/tmp"
     checksum: "sha512:{{ gentoo_latest_stage3_sha512sum }}"
+- name: get portage tarball
+  get_url:
+    url: "{{ gentoo_mirror }}/snapshots/portage-latest.tar.bz2"
+    dest: "/mnt/gentoo/portage-latest.tar.bz2"
+    tmp_dest: "/mnt/gentoo/tmp"
 - name: extract stage3 tarball to /mnt/gentoo
   unarchive:
     src: "/mnt/gentoo/{{ gentoo_stage3_url | basename }}"
@@ -17,6 +22,11 @@
     extra_opts:
       - "--xattrs"
       - "--numeric-owner"
+- name: extract portage tarball to /mnt/gentoo/usr
+  unarchive:
+    src: "/mnt/gentoo/portage-latest.tar.bz2"
+    dest: "/mnt/gentoo/usr"
+    remote_src: yes
 - name: write /mnt/gentoo/etc/fstab
   template:
     src: fstab.j2
@@ -54,9 +64,9 @@
     - /mnt/gentoo/etc/portage/repos.conf
     - /mnt/gentoo/etc/portage/package.mask
     - /mnt/gentoo/etc/portage/package.use
-- name: copy repos.conf
-  copy:
-    src: /mnt/gentoo/usr/share/portage/config/repos.conf
+- name: template repos.conf
+  template:
+    src: repo.j2
     dest: /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
 - name: write system package.mask
   template:

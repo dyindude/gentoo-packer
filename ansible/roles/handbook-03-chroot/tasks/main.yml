@@ -35,12 +35,12 @@
   get_url:
     url: https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub
     dest: /home/vagrant/.ssh/authorized_keys
-- name: run emerge-webrsync
-  shell: emerge-webrsync
-- name: install gentoolkit
-  shell: emerge gentoolkit
 - name: set profile
   shell: "eselect profile set {{ gentoo_profile }}"
+- name: run emerge --sync
+  shell: emerge --oneshot portage && emerge --oneshot dev-vcs/git && mv /usr/portage/packages /packages && mv /usr/portage /usr/portage.bak && emerge --sync && rm -rf /usr/portage.bak && mv /packages /usr/portage/packages
+- name: install gentoolkit
+  shell: emerge gentoolkit
 - name: set sqlite USE flag for python - required for ansible install from portage
   lineinfile:
     path: /etc/portage/package.use/python

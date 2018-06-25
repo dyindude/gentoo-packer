@@ -1,4 +1,7 @@
 {
+  "variables": {
+    "output_dir": "output-gentoo-local"
+  },
   "provisioners": [
     {
       "type": "shell",
@@ -46,6 +49,7 @@
     {
       "type": "shell",
       "inline": [
+          "false",
           "sync && shutdown -h now"
       ]
     }
@@ -53,6 +57,7 @@
   "builders": [
     {
       "type": "virtualbox-iso",
+      "output_directory": "{{ user `output_dir` }}",
       "boot_command": [
         "<enter><wait10><enter><wait10><wait10>passwd<enter>vagrant<enter>vagrant<enter>/etc/init.d/sshd start<enter>"
       ],

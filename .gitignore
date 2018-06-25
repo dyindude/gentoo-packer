@@ -4,6 +4,7 @@ builds/*
 *.retry
 test.yml
 output-virtualbox-iso
+output-gentoo-local
 .vagrant
 packages*
 !packages/.keep
