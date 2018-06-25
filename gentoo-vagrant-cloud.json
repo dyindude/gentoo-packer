@@ -12,18 +12,41 @@
       "type": "ansible-local",
       "command": "/tmp/bootstrap/ansible/bin/ansible-playbook",
       "playbook_dir": "ansible",
-      "playbook_file": "ansible/disks.yml",
+      "playbook_file": "ansible/prep.yml",
       "inventory_file": "ansible/inventory"
     },
     {
+      "type": "shell",
+      "inline": [
+          "mkdir -p /mnt/gentoo/usr/portage/packages"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "packages/",
+      "destination": "/mnt/gentoo/usr/portage/packages/"
+    },
+    {
       "type": "ansible-local",
-      "staging_directory": "/mnt/gentoo/tmp/ansible",
-      "command": "ANSIBLE_CONFIG=/mnt/gentoo/tmp/ansible/gentoo.cfg /tmp/bootstrap/ansible/bin/ansible-playbook",
+      "command": "/tmp/bootstrap/ansible/bin/ansible-playbook",
       "playbook_dir": "ansible",
-      "playbook_file": "ansible/gentoo.yml",
+      "playbook_file": "ansible/chroot.yml",
       "inventory_file": "ansible/inventory"
     },
-
+    {
+      "type": "shell-local",
+      "command": "rm -rf packages/*"
+    },
+    {
+      "type": "file",
+      "direction": "download",
+      "source": "/mnt/gentoo/usr/portage/packages/",
+      "destination": "packages/"
+    },
+    {
+      "type": "shell-local",
+      "command": "mv packages/packages/* packages/. && rm -rf packages/packages"
+    },
     {
       "type": "shell",
       "inline": [
@@ -35,7 +58,7 @@
     {
       "type": "virtualbox-iso",
       "boot_command": [
-        "<enter><wait10><enter><wait10><wait10>passwd<enter>vagrant<enter>vagrant<enter>service sshd start<enter>"
+        "<enter><wait10><enter><wait10><wait10>passwd<enter>vagrant<enter>vagrant<enter>/etc/init.d/sshd start<enter>"
       ],
       "boot_wait": "10s",
       "disk_size": 8192,

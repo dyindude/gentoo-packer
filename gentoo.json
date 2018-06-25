@@ -31,13 +31,17 @@
     },
     {
       "type": "shell-local",
-      "command": "rm -rfy packages/*"
+      "command": "rm -rf packages/*"
     },
     {
       "type": "file",
       "direction": "download",
       "source": "/mnt/gentoo/usr/portage/packages/",
       "destination": "packages/"
+    },
+    {
+      "type": "shell-local",
+      "command": "mv packages/packages/* packages/. && rm -rf packages/packages"
     },
     {
       "type": "shell",
