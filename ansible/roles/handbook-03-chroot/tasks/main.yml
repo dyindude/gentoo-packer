@@ -103,7 +103,8 @@
     line: '\1'
     backrefs: yes
     state: present
-- name: install ansible
-  portage:
-    package: ansible
-    state: present
+#commenting out installing ansible via portage, since this pulls in some 100~ or so packages
+#- name: install ansible
+#  portage:
+#    package: ansible
+#    state: present
