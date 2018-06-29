@@ -18,14 +18,12 @@
     {
       "type": "shell",
       "inline": [
-          "mkdir -p /mnt/gentoo/usr/portage/packages"
+          "mkdir -p /mnt/gentoo/usr/portage/packages",
+          "mkdir -p /mnt/gentoo/usr/portage/distfiles"
       ]
     },
-    {
-      "type": "file",
-      "source": "packages/",
-      "destination": "/mnt/gentoo/usr/portage/packages/"
-    },
+    { "type": "file", "source": "packages/", "destination": "/mnt/gentoo/usr/portage/packages/" },
+    { "type": "file", "source": "distfiles/", "destination": "/mnt/gentoo/usr/portage/distfiles/" },
     {
       "type": "ansible-local",
       "command": "/tmp/bootstrap/ansible/bin/ansible-playbook",
@@ -33,23 +31,22 @@
       "playbook_file": "ansible/chroot.yml",
       "inventory_file": "ansible/inventory"
     },
-    {
-      "type": "shell-local",
-      "command": "rm -rf packages/*"
-    },
-    {
-      "type": "file",
-      "direction": "download",
-      "source": "/mnt/gentoo/usr/portage/packages/",
-      "destination": "packages/"
-    },
-    {
-      "type": "shell-local",
-      "command": "mv packages/packages/* packages/. && rm -rf packages/packages"
-    },
+    { "type": "shell-local", "command": "rm -rf packages/*" },
+    { "type": "shell-local", "command": "rm -rf distfiles/*" },
+    { "type": "file", "direction": "download", "source": "/mnt/gentoo/usr/portage/packages/", "destination": "packages/" },
+    { "type": "file", "direction": "download", "source": "/mnt/gentoo/usr/portage/distfiles/", "destination": "distfiles/" },
+    { "type": "shell-local", "command": "mv packages/packages/* packages/. && rm -rf packages/packages" },
+    { "type": "shell-local", "command": "mv distfiles/distfiles/* distfiles/. && rm -rf distfiles/distfiles" },
     {
       "type": "shell",
       "inline": [
+          "rm /mnt/gentoo/stage3* ; rm /mnt/gentoo/portage-latest.tar.bz2",
+          "rm -rf /mnt/gentoo/usr/portage; mkdir /mnt/gentoo/usr/portage; true",
+          "unset HISTFILE",
+          "rm -f /mnt/gentoo/root/.bash_history",
+          "rm -f /mnt/gentoo/home/vagrant/.bash_history",
+          "find /mnt/gentoo/var/log -type f | while read f; do echo -ne '' > $f; done;",
+          "count=`df --sync -kP /mnt/gentoo | tail -n1  | awk -F ' ' '{print $4}'`; let count-- ; dd if=/dev/zero of=/mnt/gentoo/tmp/whitespace bs=1024 count=$count; rm /mnt/gentoo/tmp/whitespace;",
           "sync && shutdown -h now"
       ]
     }

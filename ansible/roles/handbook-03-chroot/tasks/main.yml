@@ -38,7 +38,7 @@
 - name: set profile
   shell: "eselect profile set {{ gentoo_profile }}"
 - name: run emerge --sync
-  shell: emerge --oneshot portage && emerge --oneshot dev-vcs/git && mv /usr/portage/packages /packages && mv /usr/portage /usr/portage.bak && emerge --sync && rm -rf /usr/portage.bak && mv /packages /usr/portage/packages
+  shell: emerge --oneshot portage && emerge dev-vcs/git && mv /usr/portage/packages /packages && mv /usr/portage/distfiles /distfiles && mv /usr/portage /usr/portage.bak && emerge --sync && rm -rf /usr/portage.bak && mv /packages /usr/portage/packages && mv /distfiles /usr/portage/distfiles
 - name: install gentoolkit
   shell: emerge gentoolkit
 - name: set sqlite USE flag for python - required for ansible install from portage
@@ -103,6 +103,24 @@
     line: '\1'
     backrefs: yes
     state: present
+- name: emerge localepurge
+  portage:
+    package: localepurge
+    state: present
+- name: /etc/locale.nopurge
+  template:
+    src: locale.nopurge.j2
+    dest: /etc/locale.nopurge
+- name: emerge localepurge
+  portage:
+    package: "{{ item }}"
+    state: removed
+    depclean: yes
+  with_items:
+    - gentoo-sources
+- name: run localepurge
+  shell: localepurge && emerge --depclean localepurge
+
 #commenting out installing ansible via portage, since this pulls in some 100~ or so packages
 #- name: install ansible
 #  portage:

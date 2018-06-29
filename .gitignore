@@ -8,3 +8,5 @@ output-gentoo-local
 .vagrant
 packages*
 !packages/.keep
+distfiles*
+!distfiles/.keep
