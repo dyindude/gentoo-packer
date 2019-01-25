@@ -4,13 +4,6 @@
     src: /etc/init.d/net.lo
     dest: /etc/init.d/net.enp0s3
     state: link
-- name: ensure services start on boot
-  service:
-    name: "{{ item }}"
-    enabled: yes
-  with_items:
-    - net.enp0s3
-    - sshd
 - name: set root password to vagrant
   user:
     name: root
@@ -107,3 +100,16 @@
   portage:
     package: ansible
     state: present
+- name: tar packages folder
+  archive:
+    format: bz2
+    path: /usr/portage/packages
+    dest: /tmp/packages.tar.bz2
+- name: ensure services start on boot
+  service:
+    name: "{{ item }}"
+    enabled: yes
+  with_items:
+    - net.enp0s3
+    - sshd
+    - virtualbox-guest-additions
