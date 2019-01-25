@@ -28,12 +28,12 @@
   get_url:
     url: https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub
     dest: /home/vagrant/.ssh/authorized_keys
-- name: run emerge-webrsync
-  shell: emerge-webrsync
-- name: install gentoolkit
-  shell: emerge gentoolkit
 - name: set profile
   shell: "eselect profile set {{ gentoo_profile }}"
+- name: run emerge --sync
+  shell: emerge --oneshot portage && emerge dev-vcs/git && mv /usr/portage/packages /packages && mv /usr/portage/distfiles /distfiles && mv /usr/portage /usr/portage.bak && emerge --sync && rm -rf /usr/portage.bak && mv /packages /usr/portage/packages && mv /distfiles /usr/portage/distfiles
+- name: install gentoolkit
+  shell: emerge gentoolkit
 - name: set sqlite USE flag for python - required for ansible install from portage
   lineinfile:
     path: /etc/portage/package.use/python
@@ -96,9 +96,9 @@
     line: '\1'
     backrefs: yes
     state: present
-- name: install ansible
+- name: emerge localepurge
   portage:
-    package: ansible
+    package: localepurge
     state: present
 - name: tar packages folder
   archive:
@@ -113,3 +113,22 @@
     - net.enp0s3
     - sshd
     - virtualbox-guest-additions
+- name: /etc/locale.nopurge
+  template:
+    src: locale.nopurge.j2
+    dest: /etc/locale.nopurge
+- name: emerge localepurge
+  portage:
+    package: "{{ item }}"
+    state: removed
+    depclean: yes
+  with_items:
+    - gentoo-sources
+- name: run localepurge
+  shell: localepurge && emerge --depclean localepurge
+
+#commenting out installing ansible via portage, since this pulls in some 100~ or so packages
+#- name: install ansible
+#  portage:
+#    package: ansible
+#    state: present
