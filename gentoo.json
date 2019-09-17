@@ -63,10 +63,10 @@
       "headless": true,
       "http_directory": "http",
       "iso_urls": [
-        "http://distfiles.gentoo.org/releases/amd64/autobuilds/20180415T214502Z/install-amd64-minimal-20180415T214502Z.iso"
+        "http://distfiles.gentoo.org/releases/amd64/autobuilds/20190915T214502Z/install-amd64-minimal-20190915T214502Z.iso"
       ],
       "iso_checksum_type": "sha512",
-      "iso_checksum": "cb9d89a5496e4999079e9d030d78e03447ba8da4860df7e0a86b6e0c2ac1073495f7e8e4ea58cb5cf6f2c0ff4ed2fbd8a2d6fbcb00b15656bba67bc0ced46720",
+      "iso_checksum": "0caaf59b081ad6a7acfb1ec9aeb017d209f7b38032970d86358e4da526a0746076035aded4eb86882de0226494bc91be36e1547a968a88de16c1d4168465f6b8",
       "ssh_username": "root",
       "ssh_password": "vagrant",
       "ssh_port": 22,
